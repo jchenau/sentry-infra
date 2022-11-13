@@ -1,0 +1,16 @@
+<yandex>
+    <logger>
+        <size>50M</size>
+    </logger>
+    <listen_host>127.0.0.1</listen_host>
+    <listen_host>{{ ansible_all_ipv4_addresses | ansible.utils.ipaddr('private') | first }}</listen_host>
+    <path>{{ clickhouse_data_dir }}</path>
+    <tmp_path>{{ clickhouse_data_dir }}tmp/</tmp_path>
+    <user_files_path>{{ clickhouse_data_dir }}user_files/</user_files_path>
+    <user_directories>
+        <local_directory>
+            <path>{{ clickhouse_data_dir }}access/</path>
+        </local_directory>
+    </user_directories>
+    <format_schema_path>{{ clickhouse_data_dir }}format_schemas/</format_schema_path>
+</yandex>

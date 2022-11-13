@@ -1,0 +1,11 @@
+<yandex>
+    <zookeeper>
+{% for node in clickhouse_zookeeper_nodes %}
+{% set host, port = node.split(':') %}
+        <node>
+            <host>{{ host }}</host>
+            <port>{{ port }}</port>
+        </node>
+{% endfor %}
+    </zookeeper>
+</yandex>

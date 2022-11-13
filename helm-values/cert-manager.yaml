@@ -1,0 +1,3 @@
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: dns01-solver@sentry-1050.iam.gserviceaccount.com

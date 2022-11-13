@@ -1,0 +1,8 @@
+- name: configure {{ deploy_hosts }}
+  hosts: "{{ deploy_hosts }}"
+  become: true
+
+  tasks:
+    - name: import role {{ role }}
+      import_role:
+        name: "{{ role }}"

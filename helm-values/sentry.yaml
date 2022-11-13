@@ -1,0 +1,56 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: sentry.jchen.au
+
+postgresql:
+  postgresqlPassword: verysecretpassword
+
+# clickhouse:
+#   enabled: false
+
+# externalClickhouse:
+#   host: "sentry-clickhouse-s00-0.australia-southeast1-b.c.sentry-1050.internal"
+#   tcpPort: 9000
+#   httpPort: 8123
+#   username: default
+#   password: ""
+#   database: default
+#   clusterName: sentry-clickhouse
+
+kafka:
+  replicaCount: 1
+  defaultReplicationFactor: 1
+  offsetsTopicReplicationFactor: 1
+  transactionStateLogReplicationFactor: 1
+  transactionStateLogMinIsr: 1
+
+rabbitmq:
+  replicaCount: 1
+
+redis:
+  enabled: false
+  replica:
+    replicaCount: 1
+
+externalRedis:
+  host: "10.249.179.99"
+  port: 6379
+
+system:
+  url: https://sentry.jchen.au
+  secretKey: r12Uvc2uLvPA2epnvWRJKjr0sh9TPzVfE3mtHoSKZjmVDIMuLX
+
+google:
+  clientId: 1044539249871-u37htqmuugs6lcput2877jbiodvmkuuv.apps.googleusercontent.com
+  clientSecret: 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
+
+hooks:
+  snubaInit:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi

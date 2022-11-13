@@ -1,0 +1,21 @@
+plugin: gcp_compute
+zones:
+  - australia-southeast1-b
+projects:
+  - sentry-1050
+filters: []
+auth_kind: application
+scopes:
+  - "https://www.googleapis.com/auth/cloud-platform"
+  - "https://www.googleapis.com/auth/compute.readonly"
+leading_separator: false
+keyed_groups:
+  # Create groups from GCE labels
+  - key: labels['group']
+hostnames:
+  # List host by name instead of the default public ip
+  - name
+compose:
+  # Set an inventory parameter to use the Public IP address to connect to the host
+  # For Private ip use "networkInterfaces[0].networkIP"
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP

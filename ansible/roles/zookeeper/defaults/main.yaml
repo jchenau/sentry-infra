@@ -1,0 +1,5 @@
+zookeeper_version: 3.7.1
+zookeeper_data_dir: /data/zookeeper
+zookeeper_logs_dir: /var/log/zookeeper
+zookeeper_heap_size: "{{ (ansible_memtotal_mb*0.25)|int }}"
+zookeeper_vmss_instances: 1

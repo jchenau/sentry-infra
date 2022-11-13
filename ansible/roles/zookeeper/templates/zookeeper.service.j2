@@ -1,0 +1,21 @@
+[Unit]
+Description=Zookeeper Server
+After=network.target remote-fs.target
+
+[Service]
+Type=forking
+
+Environment="SERVER_JVMFLAGS=-Xms{{ zookeeper_heap_size }}m -Dzookeeper.log.file=zookeeper.log"
+Environment="ZK_SERVER_HEAP={{ zookeeper_heap_size }}"
+Environment="JMXPORT=10020"
+Environment="ZOO_LOG_DIR={{ zookeeper_logs_dir }}"
+Environment="ZOO_LOG4J_PROP=INFO,ROLLINGFILE"
+
+ExecStart=/opt/zookeeper/bin/zkServer.sh start /opt/zookeeper/conf/zoo.cfg
+ExecStop=/opt/zookeeper/bin/zkServer.sh stop /opt/zookeeper/conf/zoo.cfg
+ExecReload=/opt/zookeeper/bin/zkServer.sh restart /opt/zookeeper/conf/zoo.cfg
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

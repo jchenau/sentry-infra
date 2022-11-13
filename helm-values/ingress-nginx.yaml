@@ -1,0 +1,5 @@
+controller:
+  config:
+    force-ssl-redirect: true
+  extraArgs:
+    default-ssl-certificate: tls-certs/wildcard-jchen-au

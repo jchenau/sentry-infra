@@ -1,0 +1,14 @@
+clickhouse_version: "21.8.15.7"
+clickhouse_cluster_name: "sentry-clickhouse"
+clickhouse_data_dir: "/data/clickhouse"
+clickhouse_zookeeper_nodes:
+  - sentry-clickhouse-zk-0:2181
+  - sentry-clickhouse-zk-1:2181
+  - sentry-clickhouse-zk-2:2181
+clickhouse_shards:
+  s00:
+    - sentry-clickhouse-s00-0:9000
+  s01:
+    - sentry-clickhouse-s01-0:9000
+  s02:
+    - sentry-clickhouse-s02-0:9000

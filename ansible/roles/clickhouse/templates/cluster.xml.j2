@@ -1,0 +1,20 @@
+<yandex>
+    <remote_servers>
+        <{{ clickhouse_cluster_name }}>
+{% for replicas in clickhouse_shards.values() %}
+            <shard>
+{% for node in replicas %}
+{% set host, port = node.split(':') %}
+                <replica>
+                    <internal_replication>true</internal_replication>
+                    <host>{{ host }}</host>
+                    <port>{{ port }}</port>
+                    <user>default</user>
+                    <compression>true</compression>
+                </replica>
+{% endfor %}
+            </shard>
+{% endfor %}
+        </{{ clickhouse_cluster_name }}>
+    </remote_servers>
+</yandex>

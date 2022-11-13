@@ -1,0 +1,62 @@
+- name: install required packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - dirmngr
+    state: present
+    update_cache: true
+
+- name: import clickhouse apt key
+  apt_key:
+    id: 8919F6BD2B48D754
+    keyserver: keyserver.ubuntu.com
+    state: present
+
+- name: add clickhouse apt repository
+  apt_repository:
+    repo: deb https://packages.clickhouse.com/deb stable main
+    state: present
+
+- name: install clickhouse server
+  apt:
+    name:
+      - clickhouse-server={{ clickhouse_version }}
+      - clickhouse-client={{ clickhouse_version }}
+      - clickhouse-common-static={{ clickhouse_version }}
+    state: present
+    update_cache: true
+
+- name: ensure clickhouse_data_dir has a trailing slash
+  set_fact:
+    clickhouse_data_dir: "{{ clickhouse_data_dir }}/"
+  when: clickhouse_data_dir[-1] != '/'
+
+- name: create clickhouse data directory
+  file:
+    path: "{{ clickhouse_data_dir }}"
+    state: directory
+    owner: clickhouse
+    group: clickhouse
+    mode: "0700"
+
+- name: set clickhouse_shard_id
+  set_fact:
+    clickhouse_shard_id: "{{ item[0].key }}"
+  loop: "{{ clickhouse_shards | dict2items | subelements('value') }}"
+  when: ansible_hostname == item[1].split(':')[0]
+
+- name: print clickhouse_shard_id
+  debug:
+    var: clickhouse_shard_id
+
+- name: configure {{ item }}
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/clickhouse-server/config.d/{{ item }}
+  notify: restart clickhouse
+  loop:
+    - cluster.xml
+    - macros.xml
+    - server.xml
+    - zookeeper.xml

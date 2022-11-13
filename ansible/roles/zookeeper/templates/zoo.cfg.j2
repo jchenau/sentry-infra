@@ -1,0 +1,34 @@
+# The number of milliseconds of each tick
+tickTime=2000
+
+# The number of ticks that the initial synchronization phase can take
+initLimit=10
+
+# The number of ticks that can pass between sending a request and getting an acknowledgement
+syncLimit=5
+
+# The directory where the snapshot is stored
+dataDir={{ zookeeper_data_dir }}
+
+# The port at which the clients will connect
+clientPort=2181
+
+# Specify all Zookeeper servers
+# The first port (2888) is used by followers to connect to the leader
+# The second one (3888) is used for leader election
+{% for id in range(zookeeper_vmss_instances) %}
+server.{{ id + 1 }}={{ ansible_hostname[:-1] }}{{ id }}:2888:3888
+{% endfor %}
+
+# The maximum number of client connections
+# Increase this if you need to handle more clients
+# Set to "0" to disable the per-ip limit on the number of connections
+maxClientCnxns=0
+
+# Retain last 20 snapshots in dataDir
+autopurge.snapRetainCount=20
+# Execute purge operation every 1 hour interval
+autopurge.purgeInterval=1
+
+# Whitelist 4 letter words
+4lw.commands.whitelist=srvr, stat, ruok, mntr

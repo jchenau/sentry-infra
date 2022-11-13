@@ -1,0 +1,5 @@
+clickhouse_version: "21.8.15.7"
+clickhouse_data_dir: "/data/clickhouse/"
+clickhouse_zookeeper_nodes: []
+clickhouse_cluster_name: ""
+clickhouse_shards: {}
